@@ -5,7 +5,7 @@ on: [push]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
@@ -14,7 +14,6 @@ jobs:
       with:
         node-version: '12.x'
     - run: npm install
-    - run: npm run build --if-present
-    - run: npm test
+    - run: npm run dev --if-present
       env:
         CI: true
