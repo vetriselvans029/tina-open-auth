@@ -20,7 +20,7 @@ jobs:
     - name: Build page
       run: npm run export
     - name: Deploy to gh-pages
-      uses: vetriselvans029/Pages@v3
+      uses: vetriselvans029/Pages@v1
       with:
         deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         publish_dir: ./out
