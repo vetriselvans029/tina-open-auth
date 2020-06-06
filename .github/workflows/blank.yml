@@ -1,19 +1,26 @@
-name: Node.js CI
-
-on: [push]
-
+name: Deployment
+on:
+  push:
+    branches:
+      - master
 jobs:
-  build:
-
-    runs-on: windows-latest
-
+  deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
-    - run: npm install
-    - run: npm run dev --if-present
-      env:
-        CI: true
+        node-version: ${{ matrix.node-version }}
+    - name: Install Packages
+      run: npm install
+    - name: Build page
+      run: npm run export
+    - name: Deploy to gh-pages
+      uses: vetriselvans029/Pages@v3
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        publish_dir: ./out
